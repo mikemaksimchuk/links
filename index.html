@@ -227,7 +227,7 @@
             <div id="error-container" class="hidden text-center py-16 px-4 bg-red-50 rounded-xl border border-red-200" role="alert">
                 <i class="fas fa-exclamation-triangle text-5xl text-mv-a11yorange mb-4 drop-shadow-sm" aria-hidden="true"></i>
                 <h4 class="text-2xl font-bold text-mv-blackteal mb-3">Unable to load data</h4>
-                <p class="text-mv-darkgray max-w-lg mx-auto mb-6">Please ensure your Google Sheet has "Anyone with the link can view" enabled, and that the headers (<strong class="text-mv-deepteal">Organization, Date, Title, Description, LinkURL</strong>) are exactly in Row 1.</p>
+                <p class="text-mv-darkgray max-w-lg mx-auto mb-6">Please ensure your Google Sheet has "Anyone with the link can view" enabled, and that the headers (<strong class="text-mv-deepteal">Organization, Date, Session, Resource Text, Link URL, Resource Type</strong>) are correctly ordered in Row 1.</p>
                 <div class="inline-block bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-sm text-left">
                     <p class="font-bold mb-2 border-b pb-2"><i class="fas fa-info-circle text-mv-lightteal"></i> Current view is displaying demonstration data.</p>
                 </div>
@@ -372,6 +372,7 @@
                 const session = (row[2] || '').trim() || 'General Session';
                 const resourceText = (row[3] || '').trim();
                 const linkUrl = (row[4] || '').trim();
+                const resourceType = (row[5] || '').trim(); // Column F added here
                 
                 if (!org || !dateStr) return; 
                 
@@ -401,7 +402,11 @@
                 }
                 
                 if (resourceText || linkUrl) {
-                    structuredData[org][dateStr].sessions[session].push({ resourceText, linkUrl });
+                    structuredData[org][dateStr].sessions[session].push({ 
+                        resourceText, 
+                        linkUrl, 
+                        resourceType 
+                    });
                 }
             });
 
@@ -573,12 +578,22 @@
                             `;
 
                             resources.forEach(item => {
+                                // Add resource type badge if it exists
+                                const resourceTypeBadge = item.resourceType 
+                                    ? `<div class="mb-1.5">
+                                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-mv-altbg text-mv-darkteal text-[10px] font-bold rounded-md uppercase tracking-wider border border-mv-brightteal/50 shadow-sm">
+                                            <i class="fas fa-tag opacity-70"></i> ${item.resourceType}
+                                         </span>
+                                       </div>` 
+                                    : '';
+
                                 htmlString += `
                                     <div class="resource-card bg-white rounded-lg p-4 border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4 justify-between md:items-center group hover:border-mv-lightteal transition-all">
-                                        <div class="flex-grow">
-                                            <p class="text-mv-darkgray text-sm leading-relaxed font-medium">${item.resourceText || 'Untitled Resource'}</p>
+                                        <div class="flex-grow flex flex-col justify-center">
+                                            ${resourceTypeBadge}
+                                            <p class="text-mv-darkgray text-sm leading-relaxed font-medium ${item.resourceType ? 'mt-0.5' : ''}">${item.resourceText || 'Untitled Resource'}</p>
                                         </div>
-                                        <div class="shrink-0 mt-2 md:mt-0">
+                                        <div class="shrink-0 mt-2 md:mt-0 flex items-center h-full">
                                             ${item.linkUrl ? `
                                             <a href="${item.linkUrl}" target="_blank" rel="noopener noreferrer" 
                                                class="inline-flex items-center justify-center gap-2 bg-mv-darkteal hover:bg-mv-deepteal text-white w-full md:w-auto px-4 py-2 rounded-lg font-bold text-sm transition-all focus:ring-4 focus:ring-mv-a11yorange/50 shadow shadow-mv-darkteal/20"
@@ -643,24 +658,24 @@
             });
         }
 
-        // Mock data now uses the 4-tier structure
+        // Mock data updated with resourceType
         function renderMockData() {
             const mockData = {
                 "Michigan Association of School Boards": {
                     "October 15, 2026": {
                         "Morning Keynote": [
-                            { resourceText: "Slide deck covering policy drafting and governance.", linkUrl: "https://michiganvirtual.org" }
+                            { resourceText: "Slide deck covering policy drafting and governance.", linkUrl: "https://michiganvirtual.org", resourceType: "Presentation" }
                         ],
                         "Workshop Breakout": [
-                            { resourceText: "Drafting Template - Word document for starting local policy.", linkUrl: "https://michiganvirtual.org" }
+                            { resourceText: "Drafting Template - Word document for starting local policy.", linkUrl: "https://michiganvirtual.org", resourceType: "Document" }
                         ]
                     }
                 },
                 "Lansing School District": {
                     "November 2, 2026": {
                         "Teacher In-Service": [
-                            { resourceText: "Google Drive folder containing all interactive activities.", linkUrl: "https://michiganvirtual.org" },
-                            { resourceText: "Please complete this survey before leaving.", linkUrl: "" }
+                            { resourceText: "Google Drive folder containing all interactive activities.", linkUrl: "https://michiganvirtual.org", resourceType: "Folder" },
+                            { resourceText: "Please complete this survey before leaving.", linkUrl: "", resourceType: "Survey" }
                         ]
                     }
                 },
