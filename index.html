@@ -16,7 +16,6 @@
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Tailwind Configuration for Michigan Virtual Brand Colors -->
     <script>
         tailwind.config = {
             theme: {
@@ -89,6 +88,7 @@
         }
 
         .accordion-inner {
+            min-height: 0;
             overflow: hidden;
             opacity: 0;
             transition: opacity 0.3s ease 0.1s; /* Delay fade in slightly */
@@ -140,7 +140,6 @@
 
 <body class="min-h-screen flex flex-col font-sans selection:bg-mv-deepteal selection:text-white antialiased">
 
-    <!-- Header Section with rich gradient -->
     <header class="bg-organic-waves text-white py-6 md:py-8 shadow-lg border-b-4 border-mv-a11yorange relative overflow-hidden">
         <!-- Subtle background pattern overlay -->
         <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
@@ -174,12 +173,12 @@
                 </div>
                 
                 <div class="flex flex-col gap-1">
-                    <div class="flex items-start gap-2.5 text-white hover:text-mv-brightteal transition-colors group p-1 -ml-1 rounded hover:bg-white/5">
+                    <a href="https://www.google.com/maps/search/?api=1&query=920+Municipal+Way,+Lansing,+MI+48917" target="_blank" rel="noopener noreferrer" class="flex items-start gap-2.5 text-white hover:text-mv-brightteal transition-colors group p-1 -ml-1 rounded hover:bg-white/5">
                         <span class="flex items-center justify-center w-6 h-6 rounded-full bg-mv-a11yorange/20 text-mv-a11yorange group-hover:bg-mv-a11yorange group-hover:text-white transition-colors shrink-0 mt-0.5">
                             <i class="fas fa-map-marker-alt text-[10px]" aria-hidden="true"></i>
                         </span>
                         <span class="font-medium tracking-wide text-xs leading-relaxed">920 Municipal Way<br>Lansing, MI 48917</span>
-                    </div>
+                    </a>
                     <a href="mailto:mmaksimchuk@michiganvirtual.org" class="flex items-center gap-2.5 text-white hover:text-mv-brightteal transition-colors group p-1 -ml-1 rounded hover:bg-white/5">
                         <span class="flex items-center justify-center w-6 h-6 rounded-full bg-mv-a11yorange/20 text-mv-a11yorange group-hover:bg-mv-a11yorange group-hover:text-white transition-colors">
                             <i class="fas fa-envelope text-[10px]" aria-hidden="true"></i>
@@ -203,7 +202,6 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
     <main class="flex-grow container mx-auto px-4 md:px-8 py-10 max-w-5xl flex flex-col items-center">
         
         <div class="w-full bg-white rounded-2xl shadow-mv p-6 md:p-10 border border-gray-100 relative z-0 -mt-6">
@@ -235,7 +233,6 @@
         </div>
     </main>
 
-    <!-- Footer with Admin Button -->
     <footer class="bg-mv-blackteal text-white py-10 mt-auto border-t-4 border-mv-darkteal relative">
         <div class="container mx-auto px-4 text-center flex flex-col items-center justify-center gap-8">
             <img src="https://michiganvirtual.org/legacy-wordpress/uploads/2019/09/michigan-virtual-logo-horizontal-stacked-transparent.png" 
@@ -253,20 +250,13 @@
                 </span>
             </button>
             
-            <div class="max-w-4xl mx-auto text-xs text-gray-400 font-medium space-y-4 leading-relaxed mt-4">
-                <p class="text-sm">&copy; <span id="year"></span> Mike Maksimchuk / Michigan Virtual. All rights reserved.</p>
-                
-                <p class="flex flex-col md:flex-row items-center justify-center gap-2">
-                    <span class="flex gap-1 text-lg text-gray-300" aria-label="Creative Commons License">
-                        <i class="fab fa-creative-commons"></i>
-                        <i class="fab fa-creative-commons-by"></i>
-                        <i class="fab fa-creative-commons-nc"></i>
+            <div class="max-w-4xl mx-auto text-xs text-gray-400 font-medium leading-relaxed mt-4">
+                <p>
+                    &copy; <span id="year"></span> Mike Maksimchuk / Michigan Virtual. All rights reserved. 
+                    <span class="inline-flex gap-1 mx-1 text-sm text-gray-300 align-middle -mt-0.5" aria-label="Creative Commons License">
+                        <i class="fab fa-creative-commons"></i><i class="fab fa-creative-commons-by"></i><i class="fab fa-creative-commons-nc"></i>
                     </span>
-                    <span>Unless otherwise noted, content is licensed under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-mv-a11yorange">Creative Commons Attribution-NonCommercial 4.0 License</a>. You may share and adapt materials for non-commercial use with proper attribution.</span>
-                </p>
-                
-                <p class="text-gray-500 max-w-2xl mx-auto border-t border-gray-700/50 pt-4 mt-4">
-                    <strong>Disclaimer:</strong> This repository contains links to external websites and resources. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.
+                    Unless otherwise noted, content is licensed under a <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer" class="underline hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-mv-a11yorange">CC BY-NC 4.0 License</a>. You may share and adapt materials for non-commercial use with proper attribution. This repository links to external third-party resources for which we assume no responsibility regarding content, privacy policies, or practices.
                 </p>
             </div>
         </div>
@@ -503,7 +493,7 @@
                 const wrapperOrgClass = isOrgOpen ? 'open' : '';
 
                 htmlString += `
-                    <div class="rounded-xl overflow-hidden shadow-sm border ${theme.border} bg-white mb-2">
+                    <div class="rounded-xl overflow-hidden shadow-sm border ${theme.border} bg-white">
                         <!-- Level 1 Header -->
                         <h3>
                             <button class="accordion-btn w-full flex justify-between items-center ${theme.bg} ${theme.hover} text-white px-6 py-5 text-left focus:outline-none focus:ring-4 focus:ring-inset focus:ring-white/50 transition-colors" 
@@ -520,7 +510,8 @@
                         
                         <!-- Level 1 Content Wrapper (Grid Animation) -->
                         <div id="content-${orgId}" class="accordion-wrapper ${wrapperOrgClass} bg-gray-50/50">
-                            <div class="accordion-inner p-4 md:p-6 flex flex-col gap-4">
+                            <div class="accordion-inner">
+                                <div class="p-4 md:p-6 flex flex-col gap-4">
                 `;
 
                 // LEVEL 2: Dates within Organization
@@ -559,7 +550,8 @@
                             
                             <!-- Level 2 Content Wrapper (Grid Animation) -->
                             <div id="content-${dateId}" class="accordion-wrapper ${wrapperDateClass}">
-                                <div class="accordion-inner bg-mv-altbg/30 p-4 md:p-5 flex flex-col gap-6">
+                                <div class="accordion-inner">
+                                    <div class="bg-mv-altbg/30 p-4 md:p-5 flex flex-col gap-6">
                     `;
 
                     // LEVEL 3 & 4: Sessions and Resources
@@ -621,6 +613,7 @@
                     }
 
                     htmlString += `
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -628,6 +621,7 @@
                 });
 
                 htmlString += `
+                                </div>
                             </div>
                         </div>
                     </div>
