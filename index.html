@@ -471,11 +471,11 @@
             const orgs = Object.keys(data);
             if (orgs.length === 0) return;
 
-            // Updated Brand colors for Level 1 alternating: A11y Green, Dark Teal, A11y Orange
+            // Updated Brand colors for Level 1 alternating: Dark Teal, Light Teal, A11y Green
             const orgThemes = [
-                { bg: 'bg-mv-a11ygreen', hover: 'hover:brightness-90', border: 'border-mv-a11ygreen' },
                 { bg: 'bg-mv-darkteal', hover: 'hover:brightness-90', border: 'border-mv-darkteal' },
-                { bg: 'bg-mv-a11yorange', hover: 'hover:brightness-90', border: 'border-mv-a11yorange' }
+                { bg: 'bg-mv-lightteal', hover: 'hover:brightness-90', border: 'border-mv-lightteal' },
+                { bg: 'bg-mv-a11ygreen', hover: 'hover:brightness-90', border: 'border-mv-a11ygreen' }
             ];
 
             let htmlString = '';
