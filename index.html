@@ -539,11 +539,10 @@
                                         aria-expanded="${ariaDateExpanded}" 
                                         aria-controls="content-${dateId}">
                                     <span class="font-bold text-lg flex items-center gap-3">
-                                        <div class="w-8 h-8 flex items-center justify-center bg-mv-altbg text-mv-darkteal rounded shrink-0">
+                                        <div class="bg-mv-altbg text-mv-darkteal p-1.5 rounded">
                                             <i class="far fa-calendar-alt" aria-hidden="true"></i>
                                         </div>
-                                        <span>${date}</span>
-                                        <span class="ml-2 text-xs font-semibold bg-gray-100 text-gray-500 px-2 py-1 rounded-full">${totalResources} item${totalResources !== 1 ? 's' : ''}</span>
+                                        ${date}
                                     </span>
                                     <span class="text-mv-lightgray">
                                         <i class="fas fa-chevron-down accordion-icon" aria-hidden="true"></i>
@@ -560,19 +559,40 @@
                     // LEVEL 3 & 4: Sessions and Resources
                     const sessionNames = Object.keys(sessions);
                     if (sessionNames.length > 0 && totalResources > 0) {
-                        sessionNames.forEach(sessionName => {
+                        sessionNames.forEach((sessionName, sessionIndex) => {
                             const resources = sessions[sessionName];
                             if (resources.length === 0) return;
+                            
+                            // Generate unique IDs for the Session Accordion
+                            const sessionId = `session-${dateId}-${slugify(sessionName)}-${sessionIndex}`;
+                            const isSessionOpen = false; // Start collapsed
+                            const ariaSessionExpanded = isSessionOpen ? 'true' : 'false';
+                            const wrapperSessionClass = isSessionOpen ? 'open' : '';
 
                             htmlString += `
-                                <div class="session-block">
-                                    <h5 class="text-md font-extrabold text-mv-darkteal mb-3 flex items-center gap-3 border-b border-gray-200 pb-2">
-                                        <span class="inline-flex justify-center w-6 shrink-0 text-center">
-                                            <i class="fas fa-chalkboard text-mv-a11yorange opacity-80" aria-hidden="true"></i>
-                                        </span>
-                                        <span>${sessionName}</span>
+                                <div class="session-block rounded-lg border border-gray-200 overflow-hidden bg-white shadow-sm">
+                                    <!-- Level 3 Header (Session) -->
+                                    <h5>
+                                        <button class="accordion-btn w-full flex justify-between items-center bg-gray-50/80 hover:bg-gray-100 text-mv-deepteal px-4 py-3 text-left focus:outline-none focus:ring-2 focus:ring-inset focus:ring-mv-a11yorange transition-colors" 
+                                                aria-expanded="${ariaSessionExpanded}" 
+                                                aria-controls="content-${sessionId}">
+                                            <span class="font-bold text-md flex items-center gap-3">
+                                                <span class="inline-flex justify-center w-6 shrink-0 text-center">
+                                                    <i class="fas fa-chalkboard text-mv-a11yorange opacity-90" aria-hidden="true"></i>
+                                                </span>
+                                                <span>${sessionName}</span>
+                                                <span class="ml-2 text-[10px] uppercase tracking-wide font-bold bg-white border border-gray-200 text-gray-500 px-2 py-0.5 rounded-full shadow-sm">${resources.length} file${resources.length !== 1 ? 's' : ''}</span>
+                                            </span>
+                                            <span class="text-mv-lightgray text-sm">
+                                                <i class="fas fa-chevron-down accordion-icon" aria-hidden="true"></i>
+                                            </span>
+                                        </button>
                                     </h5>
-                                    <div class="grid grid-cols-1 gap-3">
+                                    
+                                    <!-- Level 3 Content Wrapper (Resources Grid Animation) -->
+                                    <div id="content-${sessionId}" class="accordion-wrapper ${wrapperSessionClass}">
+                                        <div class="accordion-inner">
+                                            <div class="p-3 md:p-4 border-t border-gray-100 bg-white grid grid-cols-1 gap-3">
                             `;
 
                             resources.forEach(item => {
@@ -605,6 +625,8 @@
                             });
 
                             htmlString += `
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             `;
